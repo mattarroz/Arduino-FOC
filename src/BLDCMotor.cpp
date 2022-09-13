@@ -412,6 +412,11 @@ void BLDCMotor::move(float new_target) {
 }
 
 
+void BLDCMotor::setPhaseStateSensorAndDriver(int stateA, int stateB, int stateC) {
+  if (sensor) sensor->setPhaseState(stateA, stateB, stateC);
+  driver->setPhaseState(stateA, stateB, stateC); // disable phase if possible
+}
+
 // Method using FOC to set Uq and Ud to the motor at the optimal angle
 // Function implementing Space Vector PWM and Sine PWM algorithms
 //
@@ -442,17 +447,17 @@ void BLDCMotor::setPhaseVoltage(float Uq, float Ud, float angle_el) {
         Ua= center;
         Ub = trap_120_map[sector][1] * Uq + center;
         Uc = trap_120_map[sector][2] * Uq + center;
-        driver->setPhaseState(_HIGH_IMPEDANCE, _ACTIVE, _ACTIVE); // disable phase if possible
-      }else if(trap_120_map[sector][1]  == _HIGH_IMPEDANCE){
+        setPhaseStateSensorAndDriver(_HIGH_IMPEDANCE, _ACTIVE, _ACTIVE); // disable phase if possible
+     }else if(trap_120_map[sector][1]  == _HIGH_IMPEDANCE){
         Ua = trap_120_map[sector][0] * Uq + center;
         Ub = center;
         Uc = trap_120_map[sector][2] * Uq + center;
-        driver->setPhaseState(_ACTIVE, _HIGH_IMPEDANCE, _ACTIVE);// disable phase if possible
+        setPhaseStateSensorAndDriver(_ACTIVE, _HIGH_IMPEDANCE, _ACTIVE);// disable phase if possible
       }else{
         Ua = trap_120_map[sector][0] * Uq + center;
         Ub = trap_120_map[sector][1] * Uq + center;
         Uc = center;
-        driver->setPhaseState(_ACTIVE,_ACTIVE, _HIGH_IMPEDANCE);// disable phase if possible
+        setPhaseStateSensorAndDriver(_ACTIVE,_ACTIVE, _HIGH_IMPEDANCE);// disable phase if possible
       }
 
     break;
@@ -473,17 +478,17 @@ void BLDCMotor::setPhaseVoltage(float Uq, float Ud, float angle_el) {
         Ua= center;
         Ub = trap_150_map[sector][1] * Uq + center;
         Uc = trap_150_map[sector][2] * Uq + center;
-        driver->setPhaseState(_HIGH_IMPEDANCE, _ACTIVE, _ACTIVE); // disable phase if possible
+        setPhaseStateSensorAndDriver(_HIGH_IMPEDANCE, _ACTIVE, _ACTIVE); // disable phase if possible
       }else if(trap_150_map[sector][1]  == _HIGH_IMPEDANCE){
         Ua = trap_150_map[sector][0] * Uq + center;
         Ub = center;
         Uc = trap_150_map[sector][2] * Uq + center;
-        driver->setPhaseState(_ACTIVE, _HIGH_IMPEDANCE, _ACTIVE);// disable phase if possible
+        setPhaseStateSensorAndDriver(_ACTIVE, _HIGH_IMPEDANCE, _ACTIVE);// disable phase if possible
       }else{
         Ua = trap_150_map[sector][0] * Uq + center;
         Ub = trap_150_map[sector][1] * Uq + center;
         Uc = center;
-        driver->setPhaseState(_ACTIVE, _ACTIVE, _HIGH_IMPEDANCE);// disable phase if possible
+        setPhaseStateSensorAndDriver(_ACTIVE, _ACTIVE, _HIGH_IMPEDANCE);// disable phase if possible
       }
 
     break;

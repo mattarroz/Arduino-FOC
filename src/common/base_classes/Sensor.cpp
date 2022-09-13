@@ -70,3 +70,6 @@ int32_t Sensor::getFullRotations() {
 int Sensor::needsSearch() {
     return 0; // default false
 }
+
+void Sensor::setPhaseState(int phA, int phB, int phC) {
+}

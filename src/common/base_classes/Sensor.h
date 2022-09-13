@@ -102,6 +102,8 @@ class Sensor{
          */
         virtual int needsSearch();
 
+        virtual void setPhaseState(int phA, int phB, int phC); 
+
         /**
          * Minimum time between updates to velocity. If time elapsed is lower than this, the velocity is not updated.
          */
